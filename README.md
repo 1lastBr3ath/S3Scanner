@@ -13,7 +13,7 @@ Adding `--all` or `all` as last argument also checks [put-bucket-acl](https://do
 
 ![demo](./images/S3Scanner-demo.png)
 
-It immediately creates a directory with the same name as bucket name. In case it finds something, they're stored in the directory. If not, the directory is simply deleted. The error log is stored inside `/tmp` with as `<bucket-name>.log`
+It immediately creates a directory with the same name as `<bucket-name>`. In case it finds something, they're stored in the directory. If not, the directory is simply deleted. The error log is stored inside `/tmp` as `<bucket-name>.log`
 
 ### References
 https://labs.detectify.com/2017/07/13/a-deep-dive-into-aws-s3-access-controls-taking-full-control-over-your-assets/
