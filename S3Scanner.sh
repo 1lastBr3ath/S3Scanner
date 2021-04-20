@@ -54,24 +54,24 @@ set_object_acl () {
 
 list_objects () {
   aws s3api list-objects --bucket "$1" --max-items 10 \
-  --query 'Contents[].Key' | jq -r '.[]?' | tee "$1/$1"-listings.txt \
-  | while read -r OBJECT; do
+  --query 'Contents[].Key' | jq -r '.[]?' | tee "$1/$1"-listings.txt
+  while read -r OBJECT; do
     set_object_acl "$1" "$OBJECT" &
   done < "$1/$1"-listings.txt
 }
 
 BUCKET_NAME="$1"
-[ ! -d "$2" ] && mkdir "$BUCKET_NAME"
+[ ! -d "$2" ] && mkdir -p "$BUCKET_NAME"
 
 ERROR_LOG=/tmp/"$BUCKET_NAME".log
 SUCCESS_LOG="$BUCKET_NAME/$BUCKET_NAME".log
 
 {
   list_objects "$BUCKET_NAME"
-  
+
   _read_ "$BUCKET_NAME"
   _write_ "$BUCKET_NAME"
-  
+
   get_bucket_acl "$BUCKET_NAME"
   [[ "${@: -1}" =~ all|--all ]] &&  set_bucket_acl "$BUCKET_NAME"
 } 2> "$ERROR_LOG" | tee -a "$SUCCESS_LOG"
